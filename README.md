@@ -6,3 +6,8 @@
 npm install
 npm run dev
 ```
+## Notes:
+- mobile first
+- react + TS
+- vite
+- styled components
