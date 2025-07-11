@@ -7,5 +7,10 @@ declare module 'styled-components' {
             background: string
             text: string
         }
+        media: {
+            mobile: string
+            tablet: string
+            desktop: string
+        }
     }
 }

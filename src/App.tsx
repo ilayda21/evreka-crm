@@ -1,9 +1,12 @@
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
-  height: 100vh;
   background: ${({ theme }) => theme.colors.background};
   color: ${({ theme }) => theme.colors.text};
+
+   ${({ theme }) => theme.media.tablet} {
+    text-align: center;
+  }
 `
 
 function App() {
