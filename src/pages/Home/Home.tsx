@@ -6,6 +6,7 @@ import CardGrid from "../../components/CardGrid"
 import Paginator from "../../components/Paginator"
 import { Modal, useModal } from "../../components/Modal"
 import UserForm from "../../components/UserForm"
+import { Link } from "react-router-dom"
 
 function Home() {
   const [searchTerm, setSearchTerm] = useState<string>("")
@@ -53,8 +54,8 @@ function Home() {
             headers={["Name", "Email", "Role", "Creation Date", ""]}
             row={
               [
-                ["Example", "Example", "Example", "Example", <button>Details</button>],
-                ["Example", "Example", "Example", "Example", <button>Details</button>]
+                ["Example", "Example", "Example", "Example", <Link to={'/users/1'}>Details</Link>],
+                ["Example", "Example", "Example", "Example", <Link to={'/users/2'}>Details</Link>]
               ]
             }
           />
