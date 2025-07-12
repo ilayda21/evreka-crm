@@ -10,8 +10,9 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     font-family: 'Inter', sans-serif;
     font-size: 1.6rem;
-    background-color: ${({ theme }) => theme.colors.background};
-    color: ${({ theme }) => theme.colors.text};
+    background-color: ${({ theme }) => theme.colors.backgroundOffWhite};
+    color: ${({ theme }) => theme.colors.textPrimary};
+    height: 100vh;
   }
 
   *, *::before, *::after {

@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
-  background: ${({ theme }) => theme.colors.background};
-  color: ${({ theme }) => theme.colors.text};
+  background: ${({ theme }) => theme.colors.backgroundOffWhite};
+  color: ${({ theme }) => theme.colors.textPrimary};
 
    ${({ theme }) => theme.media.tablet} {
     text-align: center;

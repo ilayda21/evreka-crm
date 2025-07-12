@@ -4,8 +4,12 @@ declare module 'styled-components' {
     export interface DefaultTheme {
         colors: {
             primary: string
-            background: string
-            text: string
+            secondary: string
+            accent: string
+            backgroundLight: string
+            backgroundGray: string
+            textPrimary: string
+            backgroundOffWhite: string
         }
         media: {
             mobile: string
