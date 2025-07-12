@@ -4,6 +4,8 @@ import DropdownInput from "../../components/DropdownInput"
 import Table from "../../components/Table"
 import CardGrid from "../../components/CardGrid"
 import Paginator from "../../components/Paginator"
+import { Modal, useModal } from "../../components/Modal"
+import UserForm from "../../components/UserForm"
 
 function Home() {
   const [searchTerm, setSearchTerm] = useState<string>("")
@@ -20,22 +22,29 @@ function Home() {
     setShowAll((value) => !value)
   }
 
+  const { openModal } = useModal();
+
   return (
     <div>
       <div>
         <h2>User List</h2>
-        <DropdownInput
-          label="View:"
-          onClick={(key) => { setView(key) }}
-          options={[{ key: 'table', value: 'Table' }, { key: 'card', value: 'Card' }]}
-          value={view}
-        />
+        <button onClick={openModal}>Add user</button>
+        
 
       </div>
 
       <div>
         <input type="text" value={searchTerm} onChange={onSearchTermChange} placeholder="Search..." />
-        <ToggleButton label="Show all" value={showAll} onClick={onClick} />
+        <div>
+          <ToggleButton label="Show all" value={showAll} onClick={onClick} />
+          <DropdownInput
+            label="View:"
+            onClick={(key) => { setView(key) }}
+            options={[{ key: 'table', value: 'Table' }, { key: 'card', value: 'Card' }]}
+            value={view}
+          />
+        </div>
+       
       </div>
 
       {view === 'table' ? (
@@ -67,8 +76,12 @@ function Home() {
       </div>
       )}
 
-      {showAll  && <Paginator/>}
+      {!showAll  && <Paginator/>}
 
+      <Modal>
+        <h2>New User</h2>
+        <UserForm />
+      </Modal>
     </div>
   )
 }
