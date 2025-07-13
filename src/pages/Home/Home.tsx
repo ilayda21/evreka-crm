@@ -16,6 +16,7 @@ const AddUserButton = styled.button`
   padding: 1rem;
   font-size: 1.5rem;
   border-radius: 5px;
+  cursor: pointer;
 `;
 
 const HeaderContainer = styled.div`
@@ -29,7 +30,6 @@ const HeaderContainer = styled.div`
 const Wrapper = styled.div`
   margin: 0 3rem;
 `;
-
 const SearchInput = styled.input`
   border: ${({ theme }) => `1px solid ${theme.colors.backgroundGray}`};
   border-radius: 5px;

@@ -10,7 +10,7 @@ export const theme = {
     white: "#FFFFFF",
     lightBlueBorder: "#c3ccdf",
     lightBlue: "#e0e7f5",
-    backdrop: "#0000004a",
+    backdrop: "#2a323acf",
   },
   media: {
     mobile: `@media (min-width: 480px)`,

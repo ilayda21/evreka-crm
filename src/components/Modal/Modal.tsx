@@ -26,10 +26,9 @@ const ModalHeader = styled.div`
   justify-content: space-between;
   background-color: ${({ theme }) => theme.colors.lightBlue};
   border-bottom: ${({ theme }) => `1px solid ${theme.colors.lightBlueBorder}`};
-  padding: 2rem 1rem;
+  padding: 1rem;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  margin-bottom: 2rem;
 `;
 
 const ModalLabel = styled.h2`

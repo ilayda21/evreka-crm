@@ -1,54 +1,79 @@
-import { useId } from "react"
+import styled from "styled-components";
 
-interface IProps {
+const Form = styled.form``;
 
+const SubmitButton = styled.button`
+  background-color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.white};
+  border: none;
+  padding: 1rem;
+  font-size: 1.5rem;
+  border-radius: 5px;
+  width: 100%;
+  margin-top: 0.75rem;
+  cursor: pointer;
+`;
+
+const LabeledInput = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+`;
+
+const Input = styled.input`
+  border: ${({ theme }) => `1px solid ${theme.colors.backgroundGray}`};
+  border-radius: 5px;
+  padding: 0.75rem;
+  width: 30rem;
+  background-color: ${({ theme }) => theme.colors.backgroundLight};
+`;
+
+interface IProps {}
+
+function UserForm({}: IProps) {
+  return (
+    <Form
+      onSubmit={(event) => {
+        event.preventDefault();
+        console.log("Submitted!");
+      }}
+    >
+      <LabeledInput>
+        <label htmlFor="name">Name</label>
+        <Input
+          id="name"
+          name="name"
+          // value={form.name}
+          // onChange={handleChange}
+          required
+        />
+      </LabeledInput>
+      <LabeledInput>
+        <label htmlFor="email">Email</label>
+        <Input
+          id="email"
+          name="email"
+          // value={form.name}
+          // onChange={handleChange}
+          required
+        />
+      </LabeledInput>
+      <LabeledInput>
+        <label htmlFor="role">Role</label>
+        <Input
+          id="role"
+          name="role"
+          // value={form.name}
+          // onChange={handleChange}
+          required
+        />
+      </LabeledInput>
+
+      <SubmitButton type="submit">Save</SubmitButton>
+    </Form>
+  );
 }
 
-function UserForm({  }: IProps) {
-    return (
-        <form onSubmit={(event) => {
-            event.preventDefault();
-            console.log("Submitted!")
-        }}>
-            <div>
-                <label htmlFor="name">Name</label>
-                <input
-                    id="name"
-                    name="name"
-                    // value={form.name}
-                    // onChange={handleChange}
-                    required
-                />
-            </div>
-            <div>
-                <label htmlFor="email">Email</label>
-                <input
-                    id="email"
-                    name="email"
-                    // value={form.name}
-                    // onChange={handleChange}
-                    required
-                />
-            </div>
-            <div>
-                <label htmlFor="role">Role</label>
-                <input
-                    id="role"
-                    name="role"
-                    // value={form.name}
-                    // onChange={handleChange}
-                    required
-                />
-            </div>
-            <div>
-                <button
-                    type="submit"
-                >
-                    Add user
-                </button>
-            </div>
-        </form>
-    )
-}
-
-export default UserForm
+export default UserForm;
