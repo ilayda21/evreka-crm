@@ -23,10 +23,32 @@ const HeaderContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-bottom: 2rem;
+  margin: 0 3rem;
 `;
 
 const Wrapper = styled.div`
-  margin: 0 2em;
+  margin: 0 3rem;
+`;
+
+const SearchInput = styled.input`
+  border: ${({ theme }) => `1px solid ${theme.colors.backgroundGray}`};
+  border-radius: 5px;
+  padding: 0.75rem;
+  width: 40rem;
+  background-color: ${({ theme }) => theme.colors.backgroundLight};
+`;
+
+const ViewSettingsWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const DetailsButton = styled(Link)`
+  background-color: ${({ theme }) => theme.colors.accent};
+  color: ${({ theme }) => theme.colors.backgroundOffWhite};
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  text-decoration: none;
 `;
 
 function Home() {
@@ -46,23 +68,23 @@ function Home() {
   const { openModal } = useModal();
 
   return (
-    <Wrapper>
+    <div>
       <HeaderContainer>
         <h2>User List</h2>
         <AddUserButton onClick={openModal}>Add user</AddUserButton>
       </HeaderContainer>
 
-      <div>
-        <input
+      <Wrapper>
+        <SearchInput
           type="text"
           value={searchTerm}
           onChange={onSearchTermChange}
           placeholder="Search..."
         />
-        <div>
+        <ViewSettingsWrapper>
           <ToggleButton label="Show all" value={showAll} onClick={onClick} />
           <DropdownInput
-            label="View:"
+            label="View"
             onClick={(key) => {
               setView(key);
             }}
@@ -72,8 +94,8 @@ function Home() {
             ]}
             value={view}
           />
-        </div>
-      </div>
+        </ViewSettingsWrapper>
+      </Wrapper>
 
       {view === "table" ? (
         <div>
@@ -85,14 +107,14 @@ function Home() {
                 "Example",
                 "Example",
                 "Example",
-                <Link to={"/users/1"}>Details</Link>,
+                <DetailsButton to={"/users/1"}>Details</DetailsButton>,
               ],
               [
                 "Example",
                 "Example",
                 "Example",
                 "Example",
-                <Link to={"/users/2"}>Details</Link>,
+                <DetailsButton to={"/users/2"}>Details</DetailsButton>,
               ],
             ]}
           />
@@ -124,7 +146,7 @@ function Home() {
         <h2>New User</h2>
         <UserForm />
       </Modal>
-    </Wrapper>
+    </div>
   );
 }
 

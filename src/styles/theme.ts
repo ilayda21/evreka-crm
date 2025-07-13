@@ -4,10 +4,12 @@ export const theme = {
     secondary: "#14B8A6",
     accent: "#F97316",
     backgroundLight: "#F9FAFB",
-    backgroundGray: "#dde3e9",
+    backgroundGray: "#b7bcc1",
     textPrimary: "#333333",
     backgroundOffWhite: "#fcfbff",
     white: "#FFFFFF",
+    lightBlueBorder: "#c3ccdf",
+    lightBlue: "#e0e7f5",
   },
   media: {
     mobile: `@media (min-width: 480px)`,
