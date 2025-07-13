@@ -6,8 +6,8 @@ import CardGrid from "../../components/CardGrid";
 import Paginator from "../../components/Paginator";
 import { Modal, useModal } from "../../components/Modal";
 import UserForm from "../../components/UserForm";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
+import DetailButton from "../../components/DetailButton";
 
 const AddUserButton = styled.button`
   background-color: ${({ theme }) => theme.colors.primary};
@@ -41,14 +41,6 @@ const SearchInput = styled.input`
 const ViewSettingsWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-`;
-
-const DetailsButton = styled(Link)`
-  background-color: ${({ theme }) => theme.colors.accent};
-  color: ${({ theme }) => theme.colors.backgroundOffWhite};
-  padding: 0.75rem 1.5rem;
-  border-radius: 5px;
-  text-decoration: none;
 `;
 
 function Home() {
@@ -107,14 +99,14 @@ function Home() {
                 "Example",
                 "Example",
                 "Example",
-                <DetailsButton to={"/users/1"}>Details</DetailsButton>,
+                <DetailButton to={"/users/1"} label="Details" />,
               ],
               [
                 "Example",
                 "Example",
                 "Example",
                 "Example",
-                <DetailsButton to={"/users/2"}>Details</DetailsButton>,
+                <DetailButton to={"/users/1"} label="Details" />,
               ],
             ]}
           />
@@ -142,8 +134,7 @@ function Home() {
 
       {!showAll && <Paginator />}
 
-      <Modal>
-        <h2>New User</h2>
+      <Modal label="New User">
         <UserForm />
       </Modal>
     </div>

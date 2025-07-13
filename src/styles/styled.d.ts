@@ -13,6 +13,7 @@ declare module "styled-components" {
       white: string;
       lightBlue: string;
       lightBlueBorder: string;
+      backdrop: string;
     };
     media: {
       mobile: string;
