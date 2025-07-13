@@ -5,16 +5,25 @@ import L from "leaflet";
 const position: [number, number] = [39.9208, 32.8541];
 
 const Container = styled.div`
-  margin: 0 3rem;
+  margin: 2rem 3rem;
+`;
+
+const NameContainer = styled.div`
+  font-size: 3rem;
+`;
+
+const OtherInfo = styled.div`
+  font-size: 2rem;
 `;
 
 function UserDetail() {
   return (
     <Container>
-      <div>Name Surname</div>
-      <div>email</div>
-      <div>Creation date</div>
-      <div>Role</div>
+      <NameContainer>Name Surname</NameContainer>
+      <OtherInfo>email@gmail.com</OtherInfo>
+      <OtherInfo>Role</OtherInfo>
+      <OtherInfo>Creation date</OtherInfo>
+
       <MapContainer
         center={position}
         zoom={13}
