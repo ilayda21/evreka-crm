@@ -13,12 +13,20 @@ interface IProps {
 
 const CardContainer = styled.ul`
   list-style-type: none;
-  margin: 2rem 2rem 3rem 3rem;
+  margin: 2rem 3rem;
   padding: 0;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr;
   grid-template-rows: auto;
   gap: 10px;
+
+  ${({ theme }) => theme.media.tablet} {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  ${({ theme }) => theme.media.desktop} {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
 `;
 
 const Card = styled.li`

@@ -11,6 +11,8 @@ export const theme = {
     lightBlueBorder: "#c3ccdf",
     lightBlue: "#e0e7f5",
     backdrop: "#2a323acf",
+    lightPrimary: "#5784e6",
+    lightAccent: "#f59756",
   },
   media: {
     mobile: `@media (min-width: 480px)`,

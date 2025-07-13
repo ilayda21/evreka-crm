@@ -17,6 +17,10 @@ const AddUserButton = styled.button`
   font-size: 1.5rem;
   border-radius: 5px;
   cursor: pointer;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.lightPrimary};
+  }
 `;
 
 const HeaderContainer = styled.div`
@@ -30,17 +34,31 @@ const HeaderContainer = styled.div`
 const Wrapper = styled.div`
   margin: 0 3rem;
 `;
+
 const SearchInput = styled.input`
   border: ${({ theme }) => `1px solid ${theme.colors.backgroundGray}`};
   border-radius: 5px;
   padding: 0.75rem;
-  width: 40rem;
+  width: 100%;
   background-color: ${({ theme }) => theme.colors.backgroundLight};
+
+  ${({ theme }) => theme.media.tablet} {
+    width: 40rem;
+  }
 `;
 
 const ViewSettingsWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+
+  flex-direction: column;
+  ${({ theme }) => theme.media.tablet} {
+    flex-direction: row;
+  }
+`;
+
+const TableContainer = styled.div`
+  overflow-x: scroll;
 `;
 
 function Home() {
@@ -90,7 +108,7 @@ function Home() {
       </Wrapper>
 
       {view === "table" ? (
-        <div>
+        <TableContainer>
           <Table
             headers={["Name", "Email", "Role", "Creation Date", ""]}
             row={[
@@ -110,7 +128,7 @@ function Home() {
               ],
             ]}
           />
-        </div>
+        </TableContainer>
       ) : (
         <div>
           <CardGrid

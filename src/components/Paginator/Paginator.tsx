@@ -23,7 +23,7 @@ const Button = styled.button<IButtonProps>`
 
   &:hover {
     background-color: ${({ theme, selected }) =>
-      selected ? theme.colors.primary : theme.colors.lightBlue};
+      selected ? theme.colors.lightPrimary : theme.colors.lightBlue};
   }
 `;
 

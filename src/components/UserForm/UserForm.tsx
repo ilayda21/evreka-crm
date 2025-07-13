@@ -12,6 +12,9 @@ const SubmitButton = styled.button`
   width: 100%;
   margin-top: 0.75rem;
   cursor: pointer;
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.lightPrimary};
+  }
 `;
 
 const LabeledInput = styled.div`

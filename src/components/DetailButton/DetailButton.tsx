@@ -8,6 +8,10 @@ const Button = styled(Link)`
   border-radius: 5px;
   text-decoration: none;
   height: fit-content;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.lightAccent};
+  }
 `;
 
 interface IProps {
