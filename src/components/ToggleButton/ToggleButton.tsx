@@ -1,22 +1,71 @@
-import { useId } from "react"
+import { useId } from "react";
+import styled from "styled-components";
 
-interface IProps  {
-    label: string
-    value: boolean
-    onClick: () => void
+interface ISwitchProps {
+  on: boolean;
 }
 
-function ToggleButton({label, onClick, value} : IProps) {
+const Switch = styled.div<ISwitchProps>`
+  width: 2rem;
+  height: 2rem;
+  background-color: ${({ theme }) => theme.colors.white};
+  border-radius: 5rem;
+  margin: 5px;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  transform: ${({ on }) => (on ? "translateX(2rem)" : "translateX(0)")};
+  transition: transform 0.3s ease;
+`;
 
-    const toggleButton = useId()
-    return (
-        <div>
-            <label htmlFor={toggleButton}>{label}</label>
-            <button id={toggleButton} onClick={onClick}>
-                <div />
-            </button>
-        </div>
-    )
+interface IButtonProps {
+  on: boolean;
 }
 
-export default ToggleButton
+const Button = styled.button<IButtonProps>`
+  background-color: ${({ theme, on }) =>
+    on ? theme.colors.primary : theme.colors.backgroundGray};
+  padding: 0;
+  border-radius: 5rem;
+  width: 5rem;
+  height: 3rem;
+  border: none;
+  display: flex;
+  align-items: center;
+  position: relative;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 0;
+`;
+
+interface IProps {
+  label: string;
+  value: boolean;
+  onClick: () => void;
+}
+
+function ToggleButton({ label, onClick, value }: IProps) {
+  const toggleButtonId = useId();
+
+  return (
+    <Wrapper>
+      <label id={toggleButtonId}>{label}</label>
+      <Button
+        role="switch"
+        aria-checked={value}
+        aria-labelledby={toggleButtonId}
+        onClick={onClick}
+        on={value}
+      >
+        <Switch on={value} />
+      </Button>
+    </Wrapper>
+  );
+}
+
+export default ToggleButton;
