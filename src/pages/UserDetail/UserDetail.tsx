@@ -8,14 +8,7 @@ import type { User } from "../../utils/generateData";
 const Container = styled.div`
   margin: 2rem 3rem;
   ${({ theme }) => theme.media.tablet} {
-    display: flex;
-    gap: 3rem;
-  }
-
-  ${({ theme }) => theme.media.desktop} {
     margin: 3rem 5rem;
-    display: flex;
-    gap: 3rem;
   }
 `;
 
@@ -37,6 +30,7 @@ const NameContainer = styled.div`
 
 const OtherInfo = styled.div`
   font-size: 1.5rem;
+  margin-bottom: 1rem;
   ${({ theme }) => theme.media.tablet} {
     font-size: 2rem;
   }
@@ -65,10 +59,7 @@ function UserDetail() {
     <Container>
       <InfoContainer>
         <NameContainer>{user.name}</NameContainer>
-        <OtherInfo>{user.isActive ? "Active" : "Not active"}</OtherInfo>
         <OtherInfo>{user.email}</OtherInfo>
-        <OtherInfo>{user.role}</OtherInfo>
-        <OtherInfo>{user.createdAt}</OtherInfo>
       </InfoContainer>
 
       <Map center={user.location} zoom={13}>
