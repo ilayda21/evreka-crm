@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { ROLES } from "./constants";
+import { PAGE_SIZE, ROLES } from "./constants";
 
 export interface User {
   id: string;
@@ -11,7 +11,7 @@ export interface User {
   isActive: boolean;
 }
 
-export const generateFakeUsers = (count = 20): User[] => {
+export const generateFakeUsers = (count = PAGE_SIZE): User[] => {
   return Array.from({ length: count }, () => ({
     id: faker.string.uuid(),
     name: faker.person.fullName(),

@@ -9,6 +9,7 @@ import DetailButton from "../../components/DetailButton";
 import { type User } from "../../utils/generateData";
 import { useSearchParams, useNavigate, useLocation } from "react-router-dom";
 import { useUsers } from "../../contexts/UserContext";
+import { PAGE_SIZE } from "../../utils/constants";
 
 const AddUserButton = styled.button`
   background-color: ${({ theme }) => theme.colors.primary};
@@ -104,8 +105,6 @@ const ViewSettingsWrapper = styled.div`
 const TableContainer = styled.div`
   overflow-x: scroll;
 `;
-
-const PAGE_SIZE = 20;
 
 function Home() {
   const [users, setUsers] = useState<User[]>([]);
