@@ -143,6 +143,10 @@ function Home() {
   const location = useLocation();
 
   useEffect(() => {
+    setSearchInput(searchTerm);
+  }, []);
+
+  useEffect(() => {
     setPage(1);
   }, [showAll, searchTerm]);
 
