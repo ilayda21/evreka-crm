@@ -18,7 +18,13 @@ export const generateFakeUsers = (count = 30): User[] => {
     name: faker.person.fullName(),
     email: faker.internet.email(),
     role: faker.helpers.arrayElement(["admin", "user", "editor"]),
-    createdAt: faker.date.past({ years: 2 }).toISOString(),
+    createdAt: faker.date.past({ years: 2 }).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    }),
     location: {
       lat: Number(faker.location.latitude({ min: 36, max: 42 })),
       lon: Number(faker.location.longitude({ min: 26, max: 45 })),
