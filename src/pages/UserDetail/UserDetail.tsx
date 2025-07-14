@@ -65,6 +65,7 @@ function UserDetail() {
     <Container>
       <InfoContainer>
         <NameContainer>{user.name}</NameContainer>
+        <OtherInfo>{user.isActive ? "Active" : "Not active"}</OtherInfo>
         <OtherInfo>{user.email}</OtherInfo>
         <OtherInfo>{user.role}</OtherInfo>
         <OtherInfo>{user.createdAt}</OtherInfo>

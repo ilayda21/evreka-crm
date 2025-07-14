@@ -1,4 +1,5 @@
 import { faker } from "@faker-js/faker";
+import { ROLES } from "./constants";
 
 export interface User {
   id: string;
@@ -7,6 +8,7 @@ export interface User {
   role: string;
   createdAt: string;
   location: [lat: number, lon: number];
+  isActive: boolean;
 }
 
 export const generateFakeUsers = (count = 20): User[] => {
@@ -14,7 +16,7 @@ export const generateFakeUsers = (count = 20): User[] => {
     id: faker.string.uuid(),
     name: faker.person.fullName(),
     email: faker.internet.email(),
-    role: faker.helpers.arrayElement(["admin", "user", "editor"]),
+    role: faker.helpers.arrayElement(ROLES),
     createdAt: faker.date.past({ years: 2 }).toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
@@ -23,6 +25,7 @@ export const generateFakeUsers = (count = 20): User[] => {
       minute: "2-digit",
     }),
     location: generateRandomLocation(),
+    isActive: Math.random() < 0.5,
   }));
 };
 

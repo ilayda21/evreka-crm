@@ -61,6 +61,7 @@ function NewUser() {
     name: string;
     email: string;
     role: string;
+    isActive: boolean;
   }) => {
     const newUser = {
       id: crypto.randomUUID(),
@@ -75,6 +76,7 @@ function NewUser() {
         minute: "2-digit",
       }),
       location: generateRandomLocation(),
+      isActive: userData.isActive,
     };
 
     addUser(newUser);

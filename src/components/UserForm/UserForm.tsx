@@ -1,5 +1,8 @@
 import { useState } from "react";
 import styled from "styled-components";
+import DropdownInput from "../DropdownInput";
+import { ROLES } from "../../utils/constants";
+import Checkbox from "../Checkbox";
 
 const Form = styled.form``;
 
@@ -21,7 +24,6 @@ const SubmitButton = styled.button`
 const LabeledInput = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
   justify-content: space-between;
   margin-bottom: 1.5rem;
 `;
@@ -35,14 +37,28 @@ const Input = styled.input`
 `;
 
 interface IProps {
-  onSubmit: (data: { name: string; email: string; role: string }) => void;
+  onSubmit: (data: {
+    name: string;
+    email: string;
+    role: string;
+    isActive: boolean;
+  }) => void;
 }
 
 function UserForm({ onSubmit }: IProps) {
-  const [form, setForm] = useState({ name: "", email: "", role: "" });
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    role: "",
+    isActive: false,
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleRoleChange = (role: string) => {
+    setForm((prev) => ({ ...prev, role }));
   };
 
   return (
@@ -73,15 +89,20 @@ function UserForm({ onSubmit }: IProps) {
         />
       </LabeledInput>
       <LabeledInput>
-        <label htmlFor="role">Role</label>
-        <Input
-          id="role"
-          name="role"
+        <DropdownInput
+          label="Role"
+          onClick={handleRoleChange}
           value={form.role}
-          onChange={handleChange}
-          required
+          options={ROLES.map((role) => ({ key: role, value: role }))}
+          view="vertical"
         />
       </LabeledInput>
+
+      <Checkbox
+        checked={form.isActive}
+        label="Active"
+        onChange={(value) => setForm((prev) => ({ ...prev, isActive: value }))}
+      />
 
       <SubmitButton type="submit">Save</SubmitButton>
     </Form>
