@@ -9,7 +9,7 @@ export interface User {
   location: [lat: number, lon: number];
 }
 
-export const generateFakeUsers = (count = 30): User[] => {
+export const generateFakeUsers = (count = 20): User[] => {
   return Array.from({ length: count }, () => ({
     id: faker.string.uuid(),
     name: faker.person.fullName(),

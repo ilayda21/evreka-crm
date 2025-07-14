@@ -54,6 +54,7 @@ const SearchInput = styled.input`
   padding: 0.75rem;
   width: 100%;
   background-color: ${({ theme }) => theme.colors.backgroundLight};
+  font-size: 1.5rem;
 
   ${({ theme }) => theme.media.tablet} {
     width: 30rem;
@@ -68,6 +69,7 @@ const SearchButton = styled.button`
   font-size: 1rem;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 1.5rem;
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.lightPrimary};
@@ -75,16 +77,17 @@ const SearchButton = styled.button`
 `;
 
 const ClearButton = styled.button`
-  background-color: ${({ theme }) => theme.colors.backgroundGray};
+  background-color: ${({ theme }) => theme.colors.lightBlueBorder};
   color: ${({ theme }) => theme.colors.textPrimary};
   border: none;
   padding: 0.75rem 1.25rem;
   font-size: 1rem;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 1.5rem;
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.backgroundLight};
+    background-color: ${({ theme }) => theme.colors.lightBlue};
   }
 `;
 
@@ -102,8 +105,7 @@ const TableContainer = styled.div`
   overflow-x: scroll;
 `;
 
-const PAGE_SIZE = 30;
-const TOTAL_USERS = 5000;
+const PAGE_SIZE = 20;
 
 function Home() {
   const [users, setUsers] = useState<User[]>([]);
