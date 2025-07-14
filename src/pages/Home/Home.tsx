@@ -51,8 +51,8 @@ const SearchInput = styled.input`
 const ViewSettingsWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-
   flex-direction: column;
+
   ${({ theme }) => theme.media.tablet} {
     flex-direction: row;
   }
@@ -63,47 +63,56 @@ const TableContainer = styled.div`
 `;
 
 const PAGE_SIZE = 30;
+const TOTAL_USERS = 5000;
 
 function Home() {
   const [users, setUsers] = useState<User[]>([]);
+  const [userCache, setUserCache] = useState<User[]>([]);
   const [page, setPage] = useState(1);
+  const [showAll, setShowAll] = useState(false);
   const loaderRef = useRef<HTMLDivElement | null>(null);
-
   const [searchTerm, setSearchTerm] = useState<string>("");
 
+  const { openModal } = useModal();
+
   const onSearchTermChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event?.target.value);
+    setSearchTerm(event.target.value);
   };
 
   const [view, setView] = useState<string>("table");
 
-  const [showAll, setShowAll] = useState<boolean>(false);
-  const onClick = () => {
-    setShowAll((value) => !value);
-  };
+  const onClick = () => setShowAll((v) => !v);
 
-  const { openModal } = useModal();
   useEffect(() => {
-    setUsers(generateFakeUsers(PAGE_SIZE));
+    const stored = localStorage.getItem("users");
+    if (stored) {
+      const parsed: User[] = JSON.parse(stored);
+      setUserCache(parsed);
+      setUsers(parsed.slice(0, PAGE_SIZE));
+    } else {
+      const full = generateFakeUsers(TOTAL_USERS);
+      setUserCache(full);
+      setUsers(full.slice(0, PAGE_SIZE));
+      localStorage.setItem("users", JSON.stringify(full));
+    }
   }, []);
+
+  useEffect(() => {
+    setPage(1);
+    if (showAll) {
+      setUsers(userCache.slice(0, PAGE_SIZE));
+    } else {
+      setUsers(userCache.slice(0, PAGE_SIZE));
+    }
+  }, [showAll, userCache]);
 
   useEffect(() => {
     if (!showAll) return;
 
-    if (page === 1) {
-      setUsers(generateFakeUsers(PAGE_SIZE));
-      return;
-    }
-
-    const newUsers = generateFakeUsers(PAGE_SIZE);
-    setUsers((prev) => [...prev, ...newUsers]);
-  }, [page, showAll]);
-
-  const allUsers = useMemo(() => generateFakeUsers(5000), []);
-  const paginatedUsers = useMemo(() => {
-    const start = (page - 1) * PAGE_SIZE;
-    return allUsers.slice(start, start + PAGE_SIZE);
-  }, [page, allUsers]);
+    const offset = (page - 1) * PAGE_SIZE;
+    const next = userCache.slice(0, offset + PAGE_SIZE);
+    setUsers(next);
+  }, [page, showAll, userCache]);
 
   useEffect(() => {
     if (!showAll || !loaderRef.current) return;
@@ -124,10 +133,10 @@ function Home() {
     return () => current && observer.unobserve(current);
   }, [showAll]);
 
-  useEffect(() => {
-    setPage(1);
-    setUsers([]);
-  }, [showAll]);
+  const paginatedUsers = useMemo(() => {
+    const start = (page - 1) * PAGE_SIZE;
+    return userCache.slice(start, start + PAGE_SIZE);
+  }, [page, userCache]);
 
   const displayUsers = showAll ? users : paginatedUsers;
 
@@ -149,9 +158,7 @@ function Home() {
           <ToggleButton label="Show all" value={showAll} onClick={onClick} />
           <DropdownInput
             label="View"
-            onClick={(key) => {
-              setView(key);
-            }}
+            onClick={(key) => setView(key)}
             options={[
               { key: "table", value: "Table" },
               { key: "card", value: "Card" },
@@ -170,30 +177,33 @@ function Home() {
               user.email,
               user.role,
               user.createdAt,
-              <DetailButton to={`/users/${user.id}`} label="Details" />,
+              <DetailButton
+                key={user.id}
+                to={`/users/${user.id}`}
+                label="Details"
+              />,
             ])}
           />
         </TableContainer>
       ) : (
-        <div>
-          <CardGrid
-            data={displayUsers.map((user) => ({
-              id: user.id,
-              role: user.role,
-              creationDate: user.createdAt,
-              email: user.email,
-              name: user.name,
-            }))}
-          />
-        </div>
+        <CardGrid
+          data={displayUsers.map((user) => ({
+            id: user.id,
+            name: user.name,
+            role: user.role,
+            email: user.email,
+            creationDate: user.createdAt,
+          }))}
+        />
       )}
+
       {showAll && <div ref={loaderRef} style={{ height: "1px" }} />}
 
       {!showAll && (
         <Paginator
           currentPage={page}
           onPageChange={setPage}
-          totalPages={Math.ceil(allUsers.length / PAGE_SIZE)}
+          totalPages={Math.ceil(userCache.length / PAGE_SIZE)}
         />
       )}
 
