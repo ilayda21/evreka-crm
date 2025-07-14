@@ -1,4 +1,3 @@
-import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { ThemeProvider } from "styled-components";
 import { theme } from "./styles/theme.ts";
@@ -9,12 +8,10 @@ import { ModalProvider } from "./components/Modal/ModalContext.tsx";
 import "leaflet/dist/leaflet.css";
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <ModalProvider>
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <RouterProvider router={router} />
-      </ThemeProvider>
-    </ModalProvider>
-  </StrictMode>
+  <ModalProvider>
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <RouterProvider router={router} />
+    </ThemeProvider>
+  </ModalProvider>
 );
