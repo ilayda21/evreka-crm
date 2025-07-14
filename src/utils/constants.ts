@@ -1,3 +1,3 @@
 export const ROLES = ["Admin", "User", "Editor"];
 
-export const PAGE_SIZE = 20;
+export const PAGE_SIZE = 18;
