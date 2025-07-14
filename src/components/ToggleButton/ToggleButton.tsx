@@ -2,7 +2,7 @@ import { useId } from "react";
 import styled from "styled-components";
 
 interface ISwitchProps {
-  on: boolean;
+  $isOn: boolean;
 }
 
 const Switch = styled.div<ISwitchProps>`
@@ -13,17 +13,17 @@ const Switch = styled.div<ISwitchProps>`
   margin: 5px;
   cursor: pointer;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-  transform: ${({ on }) => (on ? "translateX(2rem)" : "translateX(0)")};
+  transform: ${({ $isOn }) => ($isOn ? "translateX(2rem)" : "translateX(0)")};
   transition: transform 0.3s ease;
 `;
 
 interface IButtonProps {
-  on: boolean;
+  $isOn: boolean;
 }
 
 const Button = styled.button<IButtonProps>`
-  background-color: ${({ theme, on }) =>
-    on ? theme.colors.primary : theme.colors.backgroundGray};
+  background-color: ${({ theme, $isOn }) =>
+    $isOn ? theme.colors.primary : theme.colors.backgroundGray};
   padding: 0;
   border-radius: 5rem;
   width: 5rem;
@@ -60,9 +60,9 @@ function ToggleButton({ label, onClick, value }: IProps) {
         aria-checked={value}
         aria-labelledby={toggleButtonId}
         onClick={onClick}
-        on={value}
+        $isOn={value}
       >
-        <Switch on={value} />
+        <Switch $isOn={value} />
       </Button>
     </Wrapper>
   );
