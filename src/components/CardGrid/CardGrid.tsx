@@ -1,14 +1,9 @@
 import styled from "styled-components";
 import DetailButton from "../DetailButton";
-interface GridItem {
-  name: string;
-  email: string;
-  role: string;
-  creationDate: string;
-}
+import type { User } from "../../utils/generateData";
 
 interface IProps {
-  data: GridItem[];
+  data: User[];
 }
 
 const CardContainer = styled.ul`
@@ -57,15 +52,15 @@ const Label = styled(Text)`
 function CardGrid({ data }: IProps) {
   return (
     <CardContainer role="list">
-      {data.map((item) => (
-        <Card>
+      {data.map((user) => (
+        <Card key={user.id}>
           <NameInfoWrapper>
-            <Label>{item.name}</Label>
-            <Text>{item.role}</Text>
+            <Label>{user.name}</Label>
+            <Text>{user.role}</Text>
           </NameInfoWrapper>
-          <Text>{item.email}</Text>
-          <Text>{item.creationDate}</Text>
-          <DetailButton to={"/users/1"} label="Details" />
+          <Text>{user.email}</Text>
+          <Text>{user.createdAt}</Text>
+          <DetailButton to={`/users/${user.id}`} label="Details" />
         </Card>
       ))}
     </CardContainer>

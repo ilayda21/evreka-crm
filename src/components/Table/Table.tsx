@@ -58,8 +58,8 @@ const TableCell = styled.td`
 `;
 
 interface IProps {
-  headers: Array<string | React.ReactNode>;
-  row: Array<Array<string | React.ReactNode>>;
+  headers: Array<string>;
+  row: Array<{ id: string; data: Array<string | React.ReactNode> }>;
 }
 
 function Table({ headers, row }: IProps) {
@@ -68,15 +68,15 @@ function Table({ headers, row }: IProps) {
       <thead>
         <tr>
           {headers.map((header) => (
-            <HeaderCell>{header}</HeaderCell>
+            <HeaderCell key={header}>{header}</HeaderCell>
           ))}
         </tr>
       </thead>
       <tbody>
         {row.map((cells) => (
-          <TableRow>
-            {cells.map((cell) => (
-              <TableCell>{cell}</TableCell>
+          <TableRow key={cells.id}>
+            {cells.data.map((cell, index) => (
+              <TableCell key={`${cells.id}-${index}`}>{cell}</TableCell>
             ))}
           </TableRow>
         ))}
