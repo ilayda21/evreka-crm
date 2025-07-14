@@ -4,12 +4,10 @@ import DropdownInput from "../../components/DropdownInput";
 import Table from "../../components/Table";
 import CardGrid from "../../components/CardGrid";
 import Paginator from "../../components/Paginator";
-import { Modal, useModal } from "../../components/Modal";
-import UserForm from "../../components/UserForm";
 import styled from "styled-components";
 import DetailButton from "../../components/DetailButton";
 import { generateFakeUsers, type User } from "../../utils/generateData";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate, useLocation } from "react-router-dom";
 
 const AddUserButton = styled.button`
   background-color: ${({ theme }) => theme.colors.primary};
@@ -117,8 +115,10 @@ function Home() {
 
   const searchTerm = searchParams.get("search") || "";
 
-  const { openModal } = useModal();
   const [view, setView] = useState<string>("table");
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const stored = localStorage.getItem("users");
@@ -191,7 +191,13 @@ function Home() {
     <div>
       <HeaderContainer>
         <h2>User List</h2>
-        <AddUserButton onClick={openModal}>Add user</AddUserButton>
+        <AddUserButton
+          onClick={() => {
+            navigate("/new", { state: { backgroundLocation: location } });
+          }}
+        >
+          Add user
+        </AddUserButton>
       </HeaderContainer>
 
       <Wrapper>
@@ -265,10 +271,6 @@ function Home() {
           totalPages={Math.ceil(filteredUsers.length / PAGE_SIZE)}
         />
       )}
-
-      <Modal label="New User">
-        <UserForm />
-      </Modal>
     </div>
   );
 }

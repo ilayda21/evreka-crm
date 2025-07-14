@@ -1,6 +1,6 @@
-import React from "react";
-import { useModal } from "./ModalContext";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+import UserForm from "../../components/UserForm";
 
 const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.backdrop};
@@ -38,46 +38,33 @@ const ModalLabel = styled.h2`
   font-size: 2rem;
 `;
 
-const ModalCloseButton = styled.button`
+const ModalCloseButton = styled(Link)`
   border: none;
   background-color: transparent;
   font-size: 2rem;
   cursor: pointer;
+  text-decoration: none;
+  color: ${({ theme }) => theme.colors.textPrimary};
 `;
 
 const ModalContent = styled.div`
   padding: 2rem 1rem;
 `;
 
-const Modal = ({
-  children,
-  label,
-}: {
-  label: string;
-  children: React.ReactNode;
-}) => {
-  const { isOpen, closeModal } = useModal();
-
-  if (!isOpen) return null;
-
+function NewUser() {
   return (
     <Wrapper>
       <ModalContainer>
         <ModalHeader>
-          <ModalLabel>{label}</ModalLabel>
-          <ModalCloseButton
-            onClick={closeModal}
-            className=""
-            aria-label="Close Modal"
-          >
-            x
-          </ModalCloseButton>
+          <ModalLabel>New User</ModalLabel>
+          <ModalCloseButton to={"/"}>x</ModalCloseButton>
         </ModalHeader>
 
-        <ModalContent>{children}</ModalContent>
+        <ModalContent>
+          <UserForm />
+        </ModalContent>
       </ModalContainer>
     </Wrapper>
   );
-};
-
-export default Modal;
+}
+export default NewUser;
