@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import ToggleButton from "../../components/ToggleButton";
-import DropdownInput from "../../components/DropdownInput";
 import Table from "../../components/Table";
 import CardGrid from "../../components/CardGrid";
 import Paginator from "../../components/Paginator";
@@ -29,8 +28,11 @@ const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 2rem;
   margin: 0 3rem;
+
+  ${({ theme }) => theme.media.tablet} {
+  }
+
   ${({ theme }) => theme.media.desktop} {
     margin: 0 5rem;
   }
@@ -38,15 +40,22 @@ const HeaderContainer = styled.div`
 
 const Wrapper = styled.div`
   margin: 0 3rem;
+
+  ${({ theme }) => theme.media.tablet} {
+    display: flex;
+    gap: 4rem;
+    justify-content: space-between;
+  }
+
   ${({ theme }) => theme.media.desktop} {
     margin: 0 5rem;
   }
 `;
 
-const SearchRow = styled.div`
+const Search = styled.div`
   display: flex;
   gap: 1rem;
-  margin-bottom: 1.5rem;
+  margin: 0.75rem 0;
 `;
 
 const SearchInput = styled.input`
@@ -57,7 +66,7 @@ const SearchInput = styled.input`
   background-color: ${({ theme }) => theme.colors.backgroundLight};
   font-size: 1.5rem;
 
-  ${({ theme }) => theme.media.tablet} {
+  ${({ theme }) => theme.media.desktop} {
     width: 30rem;
   }
 `;
@@ -94,16 +103,26 @@ const ClearButton = styled.button`
 
 const ViewSettingsWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
   flex-direction: column;
 
   ${({ theme }) => theme.media.tablet} {
     flex-direction: row;
+    gap: 4rem;
+    flex-shrink: 0;
+    justify-content: flex-end;
   }
 `;
 
 const TableContainer = styled.div`
   overflow-x: scroll;
+`;
+
+const HeaderLabel = styled.h2`
+  margin: 1rem 0;
+`;
+
+const Loader = styled.div`
+  height: 1px;
 `;
 
 function Home() {
@@ -116,7 +135,7 @@ function Home() {
 
   const searchTerm = searchParams.get("search") || "";
 
-  const [view, setView] = useState<string>("table");
+  const [cardView, setCardView] = useState<boolean>(false);
 
   const { users: userCache } = useUsers();
 
@@ -181,7 +200,7 @@ function Home() {
   return (
     <div>
       <HeaderContainer>
-        <h2>User List</h2>
+        <HeaderLabel>User List</HeaderLabel>
         <AddUserButton
           onClick={() => {
             navigate("/new", { state: { backgroundLocation: location } });
@@ -192,7 +211,7 @@ function Home() {
       </HeaderContainer>
 
       <Wrapper>
-        <SearchRow>
+        <Search>
           <SearchInput
             type="text"
             value={searchInput}
@@ -209,7 +228,7 @@ function Home() {
           >
             Clear
           </ClearButton>
-        </SearchRow>
+        </Search>
 
         <ViewSettingsWrapper>
           <ToggleButton
@@ -217,19 +236,15 @@ function Home() {
             value={showAll}
             onClick={() => setShowAll((v) => !v)}
           />
-          <DropdownInput
-            label="View"
-            onClick={(key) => setView(key)}
-            options={[
-              { key: "table", value: "Table" },
-              { key: "card", value: "Card" },
-            ]}
-            value={view}
+          <ToggleButton
+            label="Card View"
+            value={cardView}
+            onClick={() => setCardView((v) => !v)}
           />
         </ViewSettingsWrapper>
       </Wrapper>
 
-      {view === "table" ? (
+      {!cardView ? (
         <TableContainer>
           <Table
             headers={["Name", "Email", "Role", "Creation Date", ""]}
@@ -253,7 +268,7 @@ function Home() {
         <CardGrid data={displayUsers} />
       )}
 
-      {showAll && <div ref={loaderRef} style={{ height: "1px" }} />}
+      {showAll && <Loader ref={loaderRef} />}
 
       {!showAll && (
         <Paginator

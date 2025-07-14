@@ -2,10 +2,15 @@ import styled from "styled-components";
 
 const HeaderCell = styled.th`
   text-align: left;
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
   background-color: ${({ theme }) => theme.colors.lightBlue};
   border-bottom: ${({ theme }) => `1px solid ${theme.colors.lightBlueBorder}`};
+
+  ${({ theme }) => theme.media.tablet} {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
 
   &:first-child {
     padding-left: 3rem;
@@ -36,8 +41,8 @@ const TableWrapper = styled.table`
 `;
 
 const TableCell = styled.td`
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 
   &:first-child {
     padding-left: 3rem;
