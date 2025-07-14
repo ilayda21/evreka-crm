@@ -47,7 +47,7 @@ interface IPaginatorProps {
   onPageChange: (page: number) => void;
   totalPages: number;
 }
-const RANGE = 1; // number of pages to show before/after current
+const RANGE = 1;
 
 function Paginator({ currentPage, onPageChange, totalPages }: IPaginatorProps) {
   const pages = [];
