@@ -9,6 +9,7 @@ import UserForm from "../../components/UserForm";
 import styled from "styled-components";
 import DetailButton from "../../components/DetailButton";
 import { generateFakeUsers, type User } from "../../utils/generateData";
+import { useSearchParams } from "react-router-dom";
 
 const AddUserButton = styled.button`
   background-color: ${({ theme }) => theme.colors.primary};
@@ -37,10 +38,15 @@ const HeaderContainer = styled.div`
 
 const Wrapper = styled.div`
   margin: 0 3rem;
-
   ${({ theme }) => theme.media.desktop} {
     margin: 0 5rem;
   }
+`;
+
+const SearchRow = styled.div`
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
 `;
 
 const SearchInput = styled.input`
@@ -51,7 +57,35 @@ const SearchInput = styled.input`
   background-color: ${({ theme }) => theme.colors.backgroundLight};
 
   ${({ theme }) => theme.media.tablet} {
-    width: 40rem;
+    width: 30rem;
+  }
+`;
+
+const SearchButton = styled.button`
+  background-color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.white};
+  border: none;
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.lightPrimary};
+  }
+`;
+
+const ClearButton = styled.button`
+  background-color: ${({ theme }) => theme.colors.backgroundGray};
+  color: ${({ theme }) => theme.colors.textPrimary};
+  border: none;
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.backgroundLight};
   }
 `;
 
@@ -78,48 +112,46 @@ function Home() {
   const [page, setPage] = useState(1);
   const [showAll, setShowAll] = useState(false);
   const loaderRef = useRef<HTMLDivElement | null>(null);
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [searchInput, setSearchInput] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const searchTerm = searchParams.get("search") || "";
 
   const { openModal } = useModal();
-
-  const onSearchTermChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
-  };
-
   const [view, setView] = useState<string>("table");
-
-  const onClick = () => setShowAll((v) => !v);
 
   useEffect(() => {
     const stored = localStorage.getItem("users");
     if (stored) {
       const parsed: User[] = JSON.parse(stored);
       setUserCache(parsed);
-      setUsers(parsed.slice(0, PAGE_SIZE));
     } else {
       const full = generateFakeUsers(TOTAL_USERS);
       setUserCache(full);
-      setUsers(full.slice(0, PAGE_SIZE));
       localStorage.setItem("users", JSON.stringify(full));
     }
   }, []);
 
   useEffect(() => {
     setPage(1);
-    if (showAll) {
-      setUsers(userCache.slice(0, PAGE_SIZE));
-    } else {
-      setUsers(userCache.slice(0, PAGE_SIZE));
-    }
-  }, [showAll, userCache]);
+  }, [showAll, searchTerm]);
+
+  const filteredUsers = useMemo(() => {
+    if (!searchTerm) return userCache;
+    return userCache.filter((user) =>
+      `${user.name} ${user.email}`
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+    );
+  }, [searchTerm, userCache]);
 
   useEffect(() => {
     if (!showAll) return;
 
     const offset = (page - 1) * PAGE_SIZE;
-    const next = userCache.slice(0, offset + PAGE_SIZE);
+    const next = filteredUsers.slice(0, offset + PAGE_SIZE);
     setUsers(next);
-  }, [page, showAll, userCache]);
+  }, [page, showAll, filteredUsers]);
 
   useEffect(() => {
     if (!showAll || !loaderRef.current) return;
@@ -136,16 +168,24 @@ function Home() {
 
     const current = loaderRef.current;
     observer.observe(current);
-
     return () => current && observer.unobserve(current);
   }, [showAll]);
 
   const paginatedUsers = useMemo(() => {
     const start = (page - 1) * PAGE_SIZE;
-    return userCache.slice(start, start + PAGE_SIZE);
-  }, [page, userCache]);
+    return filteredUsers.slice(start, start + PAGE_SIZE);
+  }, [page, filteredUsers]);
 
   const displayUsers = showAll ? users : paginatedUsers;
+
+  const onSearchClick = () => {
+    if (searchInput) {
+      setSearchParams({ search: searchInput });
+    } else {
+      setSearchParams({});
+    }
+    setPage(1);
+  };
 
   return (
     <div>
@@ -155,14 +195,31 @@ function Home() {
       </HeaderContainer>
 
       <Wrapper>
-        <SearchInput
-          type="text"
-          value={searchTerm}
-          onChange={onSearchTermChange}
-          placeholder="Search..."
-        />
+        <SearchRow>
+          <SearchInput
+            type="text"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            placeholder="Search..."
+          />
+          <SearchButton onClick={onSearchClick}>Search</SearchButton>
+          <ClearButton
+            onClick={() => {
+              setSearchInput("");
+              setSearchParams({});
+              setPage(1);
+            }}
+          >
+            Clear
+          </ClearButton>
+        </SearchRow>
+
         <ViewSettingsWrapper>
-          <ToggleButton label="Show all" value={showAll} onClick={onClick} />
+          <ToggleButton
+            label="Show all"
+            value={showAll}
+            onClick={() => setShowAll((v) => !v)}
+          />
           <DropdownInput
             label="View"
             onClick={(key) => setView(key)}
@@ -179,29 +236,24 @@ function Home() {
         <TableContainer>
           <Table
             headers={["Name", "Email", "Role", "Creation Date", ""]}
-            row={displayUsers.map((user) => [
-              user.name,
-              user.email,
-              user.role,
-              user.createdAt,
-              <DetailButton
-                key={user.id}
-                to={`/users/${user.id}`}
-                label="Details"
-              />,
-            ])}
+            row={displayUsers.map((user) => ({
+              id: user.id,
+              data: [
+                user.name,
+                user.email,
+                user.role,
+                user.createdAt,
+                <DetailButton
+                  key={user.id}
+                  to={`/users/${user.id}`}
+                  label="Details"
+                />,
+              ],
+            }))}
           />
         </TableContainer>
       ) : (
-        <CardGrid
-          data={displayUsers.map((user) => ({
-            id: user.id,
-            name: user.name,
-            role: user.role,
-            email: user.email,
-            creationDate: user.createdAt,
-          }))}
-        />
+        <CardGrid data={displayUsers} />
       )}
 
       {showAll && <div ref={loaderRef} style={{ height: "1px" }} />}
@@ -210,7 +262,7 @@ function Home() {
         <Paginator
           currentPage={page}
           onPageChange={setPage}
-          totalPages={Math.ceil(userCache.length / PAGE_SIZE)}
+          totalPages={Math.ceil(filteredUsers.length / PAGE_SIZE)}
         />
       )}
 
