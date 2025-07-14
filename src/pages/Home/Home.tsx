@@ -30,10 +30,17 @@ const HeaderContainer = styled.div`
   justify-content: space-between;
   margin-bottom: 2rem;
   margin: 0 3rem;
+  ${({ theme }) => theme.media.desktop} {
+    margin: 0 5rem;
+  }
 `;
 
 const Wrapper = styled.div`
   margin: 0 3rem;
+
+  ${({ theme }) => theme.media.desktop} {
+    margin: 0 5rem;
+  }
 `;
 
 const SearchInput = styled.input`

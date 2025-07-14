@@ -21,11 +21,12 @@ const CardContainer = styled.ul`
   gap: 10px;
 
   ${({ theme }) => theme.media.tablet} {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 
   ${({ theme }) => theme.media.desktop} {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin: 2rem 5rem;
   }
 `;
 
@@ -44,14 +45,9 @@ const NameInfoWrapper = styled.div`
   justify-content: space-between;
 `;
 
-const OtherInfoWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 1rem;
-`;
-
 const Text = styled.p`
   margin: 0;
+  margin-bottom: 1rem;
 `;
 
 const Label = styled(Text)`
@@ -67,13 +63,9 @@ function CardGrid({ data }: IProps) {
             <Label>{item.name}</Label>
             <Text>{item.role}</Text>
           </NameInfoWrapper>
-          <OtherInfoWrapper>
-            <div>
-              <Text>{item.email}</Text>
-              <Text>{item.creationDate}</Text>
-            </div>
-            <DetailButton to={"/users/1"} label="Details" />
-          </OtherInfoWrapper>
+          <Text>{item.email}</Text>
+          <Text>{item.creationDate}</Text>
+          <DetailButton to={"/users/1"} label="Details" />
         </Card>
       ))}
     </CardContainer>

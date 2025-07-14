@@ -7,7 +7,8 @@ const Button = styled(Link)`
   padding: 0.75rem 1.5rem;
   border-radius: 5px;
   text-decoration: none;
-  height: fit-content;
+  display: block;
+  text-align: center;
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.lightAccent};

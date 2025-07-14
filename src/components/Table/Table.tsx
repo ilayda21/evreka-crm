@@ -9,10 +9,18 @@ const HeaderCell = styled.th`
 
   &:first-child {
     padding-left: 3rem;
+
+    ${({ theme }) => theme.media.desktop} {
+      padding-left: 5rem;
+    }
   }
 
   &:last-child {
     padding-right: 3rem;
+
+    ${({ theme }) => theme.media.desktop} {
+      padding-right: 5rem;
+    }
   }
 `;
 
@@ -33,11 +41,19 @@ const TableCell = styled.td`
 
   &:first-child {
     padding-left: 3rem;
+
+    ${({ theme }) => theme.media.desktop} {
+      padding-left: 5rem;
+    }
   }
 
   &:last-child {
     text-align: right;
     padding-right: 3rem;
+
+    ${({ theme }) => theme.media.desktop} {
+      padding-right: 5rem;
+    }
   }
 `;
 
