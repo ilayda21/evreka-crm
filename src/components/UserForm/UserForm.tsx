@@ -4,8 +4,6 @@ import DropdownInput from "../DropdownInput";
 import { ROLES } from "../../utils/constants";
 import Checkbox from "../Checkbox";
 
-const Form = styled.form``;
-
 const SubmitButton = styled.button`
   background-color: ${({ theme }) => theme.colors.primary};
   color: ${({ theme }) => theme.colors.white};
@@ -62,7 +60,7 @@ function UserForm({ onSubmit }: IProps) {
   };
 
   return (
-    <Form
+    <form
       onSubmit={(event) => {
         event.preventDefault();
         onSubmit(form);
@@ -86,6 +84,7 @@ function UserForm({ onSubmit }: IProps) {
           value={form.email}
           onChange={handleChange}
           required
+          type="email"
         />
       </LabeledInput>
       <LabeledInput>
@@ -95,6 +94,7 @@ function UserForm({ onSubmit }: IProps) {
           value={form.role}
           options={ROLES.map((role) => ({ key: role, value: role }))}
           view="vertical"
+          required
         />
       </LabeledInput>
 
@@ -105,7 +105,7 @@ function UserForm({ onSubmit }: IProps) {
       />
 
       <SubmitButton type="submit">Save</SubmitButton>
-    </Form>
+    </form>
   );
 }
 

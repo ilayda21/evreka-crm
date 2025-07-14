@@ -12,6 +12,7 @@ interface IProps {
   options: DropdownOption[];
   view?: "vertical" | "horizontal";
   onClick: (value: string) => void;
+  required?: boolean;
 }
 
 const SelectInput = styled.select`
@@ -38,6 +39,7 @@ function DropdownInput({
   onClick,
   value,
   view = "horizontal",
+  required = false,
 }: IProps) {
   const dropdownId = useId();
   return (
@@ -47,9 +49,10 @@ function DropdownInput({
         id={dropdownId}
         value={value}
         onChange={(e) => onClick(e.target.value)}
+        required={required}
       >
         <option value="" disabled hidden>
-          -- Select a role --
+          -- Select an option --
         </option>
         {options.map((option) => (
           <option key={option.key} value={option.key}>
