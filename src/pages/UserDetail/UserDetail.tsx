@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
+import { useParams } from "react-router-dom";
+import { useMemo } from "react";
+import type { User } from "../../utils/generateData";
 
 const position: [number, number] = [39.9208, 32.8541];
 
@@ -41,21 +44,35 @@ const OtherInfo = styled.div`
   }
 `;
 
+const Map = styled(MapContainer)`
+  height: 400px;
+  width: 100%;
+`;
+
 function UserDetail() {
+  const { id } = useParams();
+
+  const user = useMemo(() => {
+    const stored = localStorage.getItem("users");
+    if (!stored || !id) return null;
+    const parsed: User[] = JSON.parse(stored);
+    return parsed.find((user) => user.id === id);
+  }, [id]);
+
+  if (!user) {
+    return <div>User not found</div>;
+  }
+
   return (
     <Container>
       <InfoContainer>
-        <NameContainer>Name Surname</NameContainer>
-        <OtherInfo>email@gmail.com</OtherInfo>
-        <OtherInfo>Role</OtherInfo>
-        <OtherInfo>Creation date</OtherInfo>
+        <NameContainer>{user.name}</NameContainer>
+        <OtherInfo>{user.email}</OtherInfo>
+        <OtherInfo>{user.role}</OtherInfo>
+        <OtherInfo>{user.createdAt}</OtherInfo>
       </InfoContainer>
 
-      <MapContainer
-        center={position}
-        zoom={13}
-        style={{ height: "400px", width: "100%" }}
-      >
+      <Map center={position} zoom={13}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -74,7 +91,7 @@ function UserDetail() {
             Longitude: {position[1]}
           </Popup>
         </Marker>
-      </MapContainer>
+      </Map>
     </Container>
   );
 }
