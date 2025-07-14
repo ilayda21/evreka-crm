@@ -5,8 +5,6 @@ import { useParams } from "react-router-dom";
 import { useMemo } from "react";
 import type { User } from "../../utils/generateData";
 
-const position: [number, number] = [39.9208, 32.8541];
-
 const Container = styled.div`
   margin: 2rem 3rem;
   ${({ theme }) => theme.media.tablet} {
@@ -72,13 +70,13 @@ function UserDetail() {
         <OtherInfo>{user.createdAt}</OtherInfo>
       </InfoContainer>
 
-      <Map center={position} zoom={13}>
+      <Map center={user.location} zoom={13}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <Marker
-          position={position}
+          position={user.location}
           icon={L.icon({
             iconUrl:
               "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
@@ -87,8 +85,8 @@ function UserDetail() {
           })}
         >
           <Popup>
-            Latitude: {position[0]} <br />
-            Longitude: {position[1]}
+            Latitude: {user.location[0]} <br />
+            Longitude: {user.location[1]}
           </Popup>
         </Marker>
       </Map>

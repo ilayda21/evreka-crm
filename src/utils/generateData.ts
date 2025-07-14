@@ -6,10 +6,7 @@ export interface User {
   email: string;
   role: string;
   createdAt: string;
-  location: {
-    lat: number;
-    lon: number;
-  };
+  location: [lat: number, lon: number];
 }
 
 export const generateFakeUsers = (count = 30): User[] => {
@@ -25,9 +22,13 @@ export const generateFakeUsers = (count = 30): User[] => {
       hour: "2-digit",
       minute: "2-digit",
     }),
-    location: {
-      lat: Number(faker.location.latitude({ min: 36, max: 42 })),
-      lon: Number(faker.location.longitude({ min: 26, max: 45 })),
-    },
+    location: generateRandomLocation(),
   }));
+};
+
+export const generateRandomLocation = (): [lat: number, lon: number] => {
+  return [
+    Number(faker.location.latitude({ min: 36, max: 42 })),
+    Number(faker.location.longitude({ min: 26, max: 45 })),
+  ];
 };

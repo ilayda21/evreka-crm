@@ -1,6 +1,8 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import UserForm from "../../components/UserForm";
+import { useUsers } from "../../contexts/UserContext";
+import { generateRandomLocation } from "../../utils/generateData";
 
 const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.backdrop};
@@ -52,6 +54,33 @@ const ModalContent = styled.div`
 `;
 
 function NewUser() {
+  const { addUser } = useUsers();
+  const navigate = useNavigate();
+
+  const handleSubmit = (userData: {
+    name: string;
+    email: string;
+    role: string;
+  }) => {
+    const newUser = {
+      id: crypto.randomUUID(),
+      name: userData.name,
+      email: userData.email,
+      role: userData.role,
+      createdAt: new Date().toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      location: generateRandomLocation(),
+    };
+
+    addUser(newUser);
+    navigate("/", { replace: true });
+  };
+
   return (
     <Wrapper>
       <ModalContainer>
@@ -61,7 +90,7 @@ function NewUser() {
         </ModalHeader>
 
         <ModalContent>
-          <UserForm />
+          <UserForm onSubmit={handleSubmit} />
         </ModalContent>
       </ModalContainer>
     </Wrapper>

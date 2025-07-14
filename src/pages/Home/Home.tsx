@@ -6,8 +6,9 @@ import CardGrid from "../../components/CardGrid";
 import Paginator from "../../components/Paginator";
 import styled from "styled-components";
 import DetailButton from "../../components/DetailButton";
-import { generateFakeUsers, type User } from "../../utils/generateData";
+import { type User } from "../../utils/generateData";
 import { useSearchParams, useNavigate, useLocation } from "react-router-dom";
+import { useUsers } from "../../contexts/UserContext";
 
 const AddUserButton = styled.button`
   background-color: ${({ theme }) => theme.colors.primary};
@@ -106,7 +107,6 @@ const TOTAL_USERS = 5000;
 
 function Home() {
   const [users, setUsers] = useState<User[]>([]);
-  const [userCache, setUserCache] = useState<User[]>([]);
   const [page, setPage] = useState(1);
   const [showAll, setShowAll] = useState(false);
   const loaderRef = useRef<HTMLDivElement | null>(null);
@@ -117,20 +117,10 @@ function Home() {
 
   const [view, setView] = useState<string>("table");
 
+  const { users: userCache } = useUsers();
+
   const navigate = useNavigate();
   const location = useLocation();
-
-  useEffect(() => {
-    const stored = localStorage.getItem("users");
-    if (stored) {
-      const parsed: User[] = JSON.parse(stored);
-      setUserCache(parsed);
-    } else {
-      const full = generateFakeUsers(TOTAL_USERS);
-      setUserCache(full);
-      localStorage.setItem("users", JSON.stringify(full));
-    }
-  }, []);
 
   useEffect(() => {
     setPage(1);

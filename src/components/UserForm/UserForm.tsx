@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 
 const Form = styled.form``;
@@ -33,14 +34,22 @@ const Input = styled.input`
   background-color: ${({ theme }) => theme.colors.backgroundLight};
 `;
 
-interface IProps {}
+interface IProps {
+  onSubmit: (data: { name: string; email: string; role: string }) => void;
+}
 
-function UserForm({}: IProps) {
+function UserForm({ onSubmit }: IProps) {
+  const [form, setForm] = useState({ name: "", email: "", role: "" });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
   return (
     <Form
       onSubmit={(event) => {
         event.preventDefault();
-        console.log("Submitted!");
+        onSubmit(form);
       }}
     >
       <LabeledInput>
@@ -48,8 +57,8 @@ function UserForm({}: IProps) {
         <Input
           id="name"
           name="name"
-          // value={form.name}
-          // onChange={handleChange}
+          value={form.name}
+          onChange={handleChange}
           required
         />
       </LabeledInput>
@@ -58,8 +67,8 @@ function UserForm({}: IProps) {
         <Input
           id="email"
           name="email"
-          // value={form.name}
-          // onChange={handleChange}
+          value={form.email}
+          onChange={handleChange}
           required
         />
       </LabeledInput>
@@ -68,8 +77,8 @@ function UserForm({}: IProps) {
         <Input
           id="role"
           name="role"
-          // value={form.name}
-          // onChange={handleChange}
+          value={form.role}
+          onChange={handleChange}
           required
         />
       </LabeledInput>
